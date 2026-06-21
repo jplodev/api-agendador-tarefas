@@ -2,6 +2,7 @@ package com.jpdev.api_agendador_tarefas.controller;
 
 import com.jpdev.api_agendador_tarefas.business.TarefasService;
 import com.jpdev.api_agendador_tarefas.business.dto.TarefasDTO;
+import com.jpdev.api_agendador_tarefas.infrastructure.enums.StatusNotificacaoEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,21 @@ public class TarefasController {
         return ResponseEntity.ok(tarefasService.buscaTarefaAgendadaPorPeriodo(dataInicial, dataFinal));
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deletaTarefasPorId(@RequestParam("id") String id){
+        tarefasService.deletaTarefasPorId(id);
+        return ResponseEntity.ok().build();
+    }
 
+    @PatchMapping
+    public ResponseEntity<TarefasDTO> alteraStatus(@RequestParam("status")StatusNotificacaoEnum status,
+                                                   @RequestParam("id") String id){
+        return ResponseEntity.ok(tarefasService.alteraStuatus(status, id));
+    }
+
+    @PutMapping
+    public ResponseEntity<TarefasDTO> atualizaTarefa(@RequestBody TarefasDTO dto,
+                                                     @RequestParam("id") String id){
+        return ResponseEntity.ok(tarefasService.atualizaTarefas(dto, id));
+    }
 }
